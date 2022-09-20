@@ -46,7 +46,7 @@ module.exports = async(app)=>{
         cookie: {
             secure: false,
             httpOnly: true,
-            maxAge: 30000
+            maxAge: 120000
         },
         resave: false,
         saveUninitialized: false,

@@ -1,16 +1,15 @@
-const {Book} = require('./../model');
+const {Book, User} = require('./../model');
 
 const bookController = {
     getAllBooks: async(req, res)=> {
         try {
             const books = await Book.find({}) || [];
-
             res.status(200).json({
                 status: 'success',
                 data: {
                     books
                 },
-                length: data.length
+                length: books.length
             })
         } catch(err) {
             res.status(404).json({
@@ -101,9 +100,11 @@ const bookController = {
     },
     deleteParticularBook: async(req, res)=>{
         const {id} = req.params;
+        const {_id} = req.user;
         try {
             const book = await Book.findOneAndDelete({_id: id});
-
+            await User.updateOne({_id: _id}, {$set: {book: []}});
+            
             res.status(200).json({
                 status: 'success',
                 data: {

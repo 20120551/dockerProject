@@ -7,7 +7,7 @@ const userController = {
         try {
             let user = await User.findOne({username: username});
             //check if user has existed
-            if(user) throw new Error({message: 'user has existed'});
+            if(user) throw new Error('user has existed');
             //create new bcrypt password
             const salt = await generateSalt(10);
             const hashPassword = await generateHashString(password, salt);
@@ -36,11 +36,11 @@ const userController = {
         try {
             let user = await User.findOne({username: username});
             //check if user has existed
-            if(!user) throw new Error({message: 'username does not found'});
+            if(!user) throw new Error('username does not found');
             //compare password
             const match = await compareString(user.password, password);
             //check if password did not correct
-            if(!match) throw new Error({message: 'your enter password did not correct'});
+            if(!match) throw new Error('your enter password did not correct');
             //generate session id
             req.session.user = user;
 
@@ -61,8 +61,7 @@ const userController = {
         const {_id} = req.user;
         try {
             const user = await User.findById({_id: _id}).populate('book');
-
-            if(!user) throw new Error({message: 'user was found on our system'});
+            if(!user) throw new Error('user was found on our system');
 
             const {
                 book

@@ -25,10 +25,12 @@ const Book = new Schema({
         ref: 'user'
     },
 })
-
-Book.pre('findOneAndDelete', async(next)=>{
-    const bookId = new mongoose.Types.Schema.ObjectId(this.getQuery()["_id"]);
-    await User.updateOne({}, {$pull: {book: bookId}});
+Book.pre('save', async function(next){
+    const {
+        author,
+        _id
+    } = this;
+    await User.updateOne({_id: author}, {$push: {book: _id}});
     next();
 })
 
