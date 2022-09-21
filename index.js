@@ -6,8 +6,9 @@ const app = express();
     //config all in express app
     await expressApp(app);
 
-    app.get('/', (req, res)=>{
+    app.get('/api/vi', (req, res)=>{
         res.send('<h1>Hi there !!</h1>');
+        console.log('we are here!');
     });
 
     const PORT = process.env.PORT || 3000;
